@@ -1,34 +1,29 @@
 #include <iostream>
 #include <stdlib.h>
-#include <stdio.h>
 #include <conio.h>
 #include <time.h>
 #define random(x) (rand()%x)
 using namespace std;
 
-int M[4][4];
-int num;
-int score;
+int M[4][4];	//存放数字的二维数组
+int num;		//已有的数字个数
+int score;		//得分
 
-
-void createNumber() {
+void createNumber() {	//产生随机数
 	int i = random(4);
 	int j = random(4);
 	if (M[i][j] == 0) {
-		if (random(2))
-			M[i][j] = 2;
-		else M[i][j] = 4;
+		if (random(2))	M[i][j] = 2;
+		else	M[i][j] = 4;
 		++num;
 	}
 	else
 		createNumber();
 }
 
-
-void init() {
+void init() {	//初始化
 	srand((int)time(0));
-	for (int i = 0; i < 4; i++)
-	{
+	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			M[i][j] = 0;
 		}
@@ -37,11 +32,10 @@ void init() {
 	createNumber();
 }
 
-void show() {
+void display() {		//显示函数
 	cout << "\n\n\t\t\t\t-------------2-0-4-8-------------\n\n";
 	cout << "\t\t\t\t---------------------------------\n";
-	for (int i = 0; i < 4; i++)
-	{
+	for (int i = 0; i < 4; i++) {
 		cout << "\t\t\t\t|";
 		for (int j = 0; j < 4; j++) {
 			if (M[i][j] == 0)
@@ -60,18 +54,15 @@ void up() {
 	for (int i = 0; i < 4; i++)
 	{
 		int tmpArr[4] = { 0,0,0,0 };
-		int count = 0;
-		int j = 0;
+		int j = 0,index = 0;
+
 		for (; j < 4; j++)
 		{
-			if (M[j][i] == 0 && j!=3 && 0 != M[j + 1][i])
-				needNew = true;
-			if (M[j][i] != 0)
-				tmpArr[count++] = M[j][i];
+			if (M[j][i] == 0 && j!=3 && 0 != M[j + 1][i])	needNew = true;
+			if (M[j][i] != 0)	tmpArr[index++] = M[j][i];
 		}
 		j = 0;
-		while (j < 4)
-			M[j][i] = tmpArr[j++];
+		while (j < 4) M[j][i] = tmpArr[j++];
 
 		if (M[0][i] == M[1][i] && M[0][i]) {
 			if (M[2][i] == M[3][i] && M[2][i]) {
@@ -81,8 +72,7 @@ void up() {
 				num -= 2;
 				score += M[0][i] + M[1][i];
 			}
-			else
-			{
+			else {
 				M[0][i] *= 2;
 				M[1][i] = M[2][i];
 				M[2][i] = M[3][i];
@@ -136,8 +126,7 @@ void down() {
 				num -= 2;
 				score += M[3][i] + M[2][i];
 			}
-			else
-			{
+			else {
 				M[3][i]*=2;
 				M[2][i] = M[1][i];
 				M[1][i] = M[0][i];
@@ -172,18 +161,15 @@ void left() {
 	for (int i = 0; i < 4; i++)
 	{
 		int tmpArr[4] = {0,0,0,0};
-		int count = 0;
-		int j = 0;
+		int j = 0,index = 0;
+
 		for (; j < 4; j++)
 		{
-			if (M[i][j] == 0 && j != 3 && 0 != M[i][j+1])
-				needNew = true;
-			if (M[i][j] != 0)
-				tmpArr[count++] = M[i][j];
+			if (M[i][j] == 0 && j != 3 && 0 != M[i][j+1])	needNew = true;
+			if (M[i][j] != 0)	tmpArr[index++] = M[i][j];
 		}
 		j = 0;
-		while (j<4)
-			M[i][j] = tmpArr[j++];
+		while (j<4)	M[i][j] = tmpArr[j++];
 
 		if (M[i][0] == M[i][1] && M[i][0]) {
 			if (M[i][2] == M[i][3] && M[i][2]) {
@@ -193,8 +179,7 @@ void left() {
 				num -= 2;
 				score += M[i][0] + M[i][1];
 			}
-			else
-			{
+			else {
 				M[i][0]*=2;
 				M[i][1] = M[i][2];
 				M[i][2] = M[i][3];
@@ -231,14 +216,11 @@ void right() {
 		int j = 3,index = 3;
 
 		for (; j >= 0; j--) {
-			if (M[i][j-1] != 0 && j != 0 && 0 == M[i][j])
-				needNew = true;
-			if (M[i][j] != 0)
-				tmpArr[index--] = M[i][j];
+			if (M[i][j-1] != 0 && j != 0 && 0 == M[i][j])	needNew = true;
+			if (M[i][j] != 0)	tmpArr[index--] = M[i][j];
 		}
-		while (++j < 4) {
-			M[i][j] = tmpArr[j];
-		}
+		while (++j < 4)	M[i][j] = tmpArr[j];
+
 		if (M[i][3] == M[i][2] && M[i][2]) {
 			if (M[i][1] == M[i][0] && M[i][0]) {
 				M[i][3]*=2;
@@ -247,8 +229,7 @@ void right() {
 				num -= 2;
 				score += M[i][3] + M[i][2];
 			}
-			else
-			{
+			else {
 				M[i][3]*=2;
 				M[i][2] = M[i][1];
 				M[i][1] = M[i][0];
@@ -283,13 +264,11 @@ bool isFull() {
 }
 
 bool isOver() {
-	for (int i = 0; i < 4; i++)
-	{
+	for (int i = 0; i < 4; i++){
 		if (M[i][0] == M[i][1] || M[i][1] == M[i][2] || M[i][2] == M[i][3])
 			return false;
 	}
-	for (int i = 0; i < 4; i++)
-	{
+	for (int i = 0; i < 4; i++){
 		if (M[0][i] == M[1][i] || M[1][i] == M[2][i] || M[2][i] == M[3][i])
 			return false;
 	}
@@ -298,10 +277,9 @@ bool isOver() {
 
 int main() {
 	init();
-	show();
+	display();
 	int ch;
-	while ((ch = _getch()) != 0x1B) /* Press ESC to quit... */
-	{
+	while ((ch = _getch()) != 0x1B){
 		if (isFull() && isOver())
 			break;
 		switch (ch) {
@@ -319,7 +297,7 @@ int main() {
 						break;
 				}
 				system("cls");
-				show();
+				display();
 				break;
 			default:
 				break;
